@@ -1,7 +1,7 @@
-package com.ohgiraffers.jpayouthdepartmentregister.controller;
+package com.kori1304.jpayouthdepartmentregister.controller;
 
-import com.ohgiraffers.jpayouthdepartmentregister.entity.Product;
-import com.ohgiraffers.jpayouthdepartmentregister.repository.ProductJpaRepository;
+import com.kori1304.jpayouthdepartmentregister.entity.Product;
+import com.kori1304.jpayouthdepartmentregister.repository.ProductJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

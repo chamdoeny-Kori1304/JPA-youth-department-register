@@ -1,4 +1,4 @@
-package com.ohgiraffers.jpayouthdepartmentregister.entity;
+package com.kori1304.jpayouthdepartmentregister.entity;
 
 
 import jakarta.persistence.*;

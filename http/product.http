@@ -1,6 +1,3 @@
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
 
 ### post 테스트
 POST localhost:8080/product/save

@@ -1,4 +1,4 @@
-package com.ohgiraffers.jpayouthdepartmentregister;
+package com.kori1304.jpayouthdepartmentregister;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
