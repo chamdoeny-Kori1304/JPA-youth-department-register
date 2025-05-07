@@ -1,4 +1,4 @@
-package com.kori1304.jpayouthdepartmentregister.entity;
+package com.kori1304.jpayouthdepartmentregister.entities;
 
 
 import jakarta.persistence.*;
