@@ -1,9 +1,12 @@
 package com.kori1304.jpayouthdepartmentregister.member.application;
 
 
-import com.kori1304.jpayouthdepartmentregister.member.domain.MemberEntity;
-import com.kori1304.jpayouthdepartmentregister.member.dto.MemberDTO;
-import com.kori1304.jpayouthdepartmentregister.member.infrastructure.MemberRepository;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Members;
+import com.kori1304.jpayouthdepartmentregister.member.infrastructure.MemberEntity;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,29 +17,38 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+
 public class MemberService {
 
-  private final MemberRepository memberRepository;
+  private final Members members; // 도메인 리포지토리 인터페이스
 
-  public Long append(MemberDTO memberDTO) {
-
-    MemberEntity newMember = memberRepository.save(MemberEntity.fromDTO(memberDTO));
-
-    return newMember.getId();
-  }
-
-  public List<MemberDTO> getAllMembers() {
-    List<MemberEntity> members = memberRepository.findAll();
-    List<MemberDTO> memberDTOs = new ArrayList<>();
-
-    int size = members.size();
-    for (int i = 0; i < size; i++) {
-      memberDTOs.add(members.get(i).toDTO());
-
-
+  public boolean append(Member member) {
+    try {
+      MemberEntity newMember = members.save(MemberEntity.fromDomain(member));
+      return true;
+    } catch (Exception e) {
+      log.error("Failed to save member: " + e.getMessage());
+      return false;
     }
-    return memberDTOs;
   }
 
+  public List<Member> getAllMembers() {
+    List<MemberEntity> entities = members.findAll();
+    return entities.stream()
+        .map(MemberEntity::toDomain)
+        .collect(Collectors.toList());
+  }
 
+  public Map<String, List<String>> getMemberNamesGroupedByTeam() {
+    Map<String, List<String>> result = new HashMap<>();
+    List<Member> allMembers = getAllMembers();
+
+    for (Member member : allMembers) {
+      result.computeIfAbsent(member.getSmallGroupName(), k -> new ArrayList<>())
+          .add(member.getName());
+    }
+
+    return result;
+  }
 }
+

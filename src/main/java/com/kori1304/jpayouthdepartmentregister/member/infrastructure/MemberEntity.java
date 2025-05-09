@@ -1,8 +1,9 @@
-package com.kori1304.jpayouthdepartmentregister.member.domain;
+package com.kori1304.jpayouthdepartmentregister.member.infrastructure;
 
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.AttendanceEntity;
 import com.kori1304.jpayouthdepartmentregister._common.BaseEntity;
-import com.kori1304.jpayouthdepartmentregister.member.dto.MemberDTO;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Gender;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +32,7 @@ public class MemberEntity extends BaseEntity {
   private List<AttendanceEntity> attendanceList = new ArrayList<>();
 
 
-  static public MemberEntity fromDTO(MemberDTO memberDTO) {
+  static public MemberEntity fromDomain(Member memberDTO) {
 
     MemberEntity memberEntity = MemberEntity.builder()
         .smallGroupName(memberDTO.getSmallGroupName())
@@ -61,8 +62,8 @@ public class MemberEntity extends BaseEntity {
         '}';
   }
 
-  public MemberDTO toDTO() {
-    MemberDTO memberDTO = MemberDTO.builder()
+  public Member toDomain() {
+  return Member.builder()
         .smallGroupName(smallGroupName)
         .name(name)
         .gender(gender)
@@ -72,6 +73,5 @@ public class MemberEntity extends BaseEntity {
         .humanRelations(humanRelations)
         .build();
 
-    return memberDTO;
   }
 }
