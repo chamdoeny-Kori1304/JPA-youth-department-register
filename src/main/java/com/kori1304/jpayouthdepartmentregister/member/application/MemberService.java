@@ -2,11 +2,8 @@ package com.kori1304.jpayouthdepartmentregister.member.application;
 
 
 import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
-import com.kori1304.jpayouthdepartmentregister.member.domain.Members;
-import com.kori1304.jpayouthdepartmentregister.member.infrastructure.MemberEntity;
-import java.util.HashMap;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Members;import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,9 +19,10 @@ public class MemberService {
 
   private final Members members; // 도메인 리포지토리 인터페이스
 
-  public boolean append(Member member) {
+  public boolean add(Member member) {
     try {
-      MemberEntity newMember = members.save(MemberEntity.fromDomain(member));
+       members.save(member);
+
       return true;
     } catch (Exception e) {
       log.error("Failed to save member: " + e.getMessage());
@@ -33,10 +31,8 @@ public class MemberService {
   }
 
   public List<Member> getAllMembers() {
-    List<MemberEntity> entities = members.findAll();
-    return entities.stream()
-        .map(MemberEntity::toDomain)
-        .collect(Collectors.toList());
+
+    return members.findAll();
   }
 
   public Map<String, List<String>> getMemberNamesGroupedByTeam() {
@@ -44,7 +40,7 @@ public class MemberService {
     List<Member> allMembers = getAllMembers();
 
     for (Member member : allMembers) {
-      result.computeIfAbsent(member.getSmallGroupName(), k -> new ArrayList<>())
+      result.computeIfAbsent(member.getSmallGroup().getName(), k -> new ArrayList<>())
           .add(member.getName());
     }
 
