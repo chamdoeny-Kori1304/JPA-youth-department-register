@@ -1,5 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister.member.domain;
 
+import com.kori1304.jpayouthdepartmentregister.member.small_group.SmallGroup;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.Getter;
 public class Member {
 
   private final Long id;
-  private String smallGroupName;
+  private SmallGroup smallGroup;
   private String name;
   private Gender gender;
   private String phoneNumber;
@@ -28,7 +29,7 @@ public class Member {
   public String toString() {
     return "Member{" +
         "id=" + id +
-        ", smallGroupName='" + smallGroupName + '\'' +
+        ", smallGroupName='" + (smallGroup != null ? smallGroup.getName() : "null") + '\'' +
         ", name='" + name + '\'' +
         ", gender=" + gender +
         ", phoneNumber='" + phoneNumber + '\'' +
