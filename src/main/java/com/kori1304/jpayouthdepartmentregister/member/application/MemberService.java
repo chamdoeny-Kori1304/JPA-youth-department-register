@@ -2,7 +2,8 @@ package com.kori1304.jpayouthdepartmentregister.member.application;
 
 
 import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
-import com.kori1304.jpayouthdepartmentregister.member.domain.Members;import java.util.HashMap;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Members;
+import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class MemberService {
 
   public boolean add(Member member) {
     try {
-       members.save(member);
+      members.save(member);
 
       return true;
     } catch (Exception e) {
@@ -31,7 +32,6 @@ public class MemberService {
   }
 
   public List<Member> getAllMembers() {
-
     return members.findAll();
   }
 
@@ -46,5 +46,18 @@ public class MemberService {
 
     return result;
   }
+
+  public Member getById(Long id) {
+    return members.findById(id);
+  }
+
+  public Member getByName(String name) {
+    return members.findByName(name);
+  }
+
+  public List<Member> getMembersBySmallGroup(String groupName) {
+    return members.findBySmallGroupName(groupName);
+  }
+
 }
 
