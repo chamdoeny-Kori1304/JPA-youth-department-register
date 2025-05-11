@@ -59,5 +59,17 @@ public class MemberService {
     return members.findBySmallGroupName(groupName);
   }
 
+  public boolean setMemberInfo(Member member) {
+    try {
+      members.updateInfo(member);
+      return true;
+
+    } catch (Exception e) {
+      log.error("Failed to update member: " + e.getMessage());
+      return false;
+
+    }
+  }
+
 }
 
