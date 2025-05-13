@@ -3,6 +3,7 @@ package com.kori1304.jpayouthdepartmentregister.common.factory;
 
 import com.kori1304.jpayouthdepartmentregister.member.domain.Gender;
 import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
+import com.kori1304.jpayouthdepartmentregister.member.small_group.SmallGroup;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class MemberTestFactory {
     List<Member> members = new ArrayList<>();
     for (Object[] row : SAMPLE_DATA) {
       members.add(Member.builder()
-          .smallGroupName((String) row[0])
+          .smallGroup(SmallGroup.builder().name((String) row[0]).build())
           .name((String) row[1])
           .gender((Gender) row[2])
           .phoneNumber((String) row[3])
@@ -45,7 +46,7 @@ public class MemberTestFactory {
     Object[] row = SAMPLE_DATA[number];
 
     return Member.builder()
-        .smallGroupName((String) row[0])
+        .smallGroup(SmallGroup.builder().name((String) row[0]).build())
         .name((String) row[1])
         .gender((Gender) row[2])
         .phoneNumber((String) row[3])

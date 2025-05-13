@@ -53,7 +53,7 @@ class MemberServiceTest {
   }
 
   @Test
-  void append_success() {
+  void add_success() {
     // given
     Member member = MemberTestFactory.getSampleMemberDTO(4);
 
@@ -62,7 +62,7 @@ class MemberServiceTest {
     when(memberRepository.save(any(MemberEntity.class))).thenReturn(mockEntity);
 
     // when
-    boolean result = memberService.append(member);
+    boolean result = memberService.add(member);
 
     // then
     assertTrue(result);
@@ -71,19 +71,17 @@ class MemberServiceTest {
 
   // TODO 예외 처리를 따로 둬야하나?
   @Test
-  void append_failure() {
+  void add_failure() {
     // given
     Member member = Member.builder().name("에러케이스").build();
-
-
     when(memberRepository.save(any(MemberEntity.class))).thenThrow(new RuntimeException("DB Error"));
 
     // when
-    boolean result = memberService.append(member);
+    boolean result = memberService.add(member);
 
     // then
     assertFalse(result);
-    verify(memberRepository, times(1)).save(any(MemberEntity.class));
+    verify(memberRepository, times(1)).save(any(MemberEntity.class)); // save()는 1번 호출되어야 함
   }
 
 }
