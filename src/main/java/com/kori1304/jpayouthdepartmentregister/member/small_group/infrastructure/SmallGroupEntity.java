@@ -15,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Builder
+/**ID 프론트 공개*/
 public class SmallGroupEntity extends BaseEntity {
 
   private String name;

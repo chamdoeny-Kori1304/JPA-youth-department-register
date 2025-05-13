@@ -1,7 +1,5 @@
 package com.kori1304.jpayouthdepartmentregister.member.small_group;
 
-import com.kori1304.jpayouthdepartmentregister.member.infrastructure.MemberEntity;
-import com.kori1304.jpayouthdepartmentregister.member.infrastructure.MemberRepository;
 import com.kori1304.jpayouthdepartmentregister.member.small_group.infrastructure.SmallGroupEntity;
 import com.kori1304.jpayouthdepartmentregister.member.small_group.infrastructure.SmallGroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +25,8 @@ public class SmallGroupService {
     return smallGroupRepository.existsByName(name);
   }
 
-  public SmallGroupEntity getByName(String name) {
+  public SmallGroup getByName(String name) {
 
-    return  smallGroupRepository.getByName(name);
+    return  smallGroupRepository.getByName(name).toDomain();
   }
 }
