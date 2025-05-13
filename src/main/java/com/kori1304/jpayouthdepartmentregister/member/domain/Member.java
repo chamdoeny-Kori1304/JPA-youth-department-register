@@ -7,15 +7,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE) // 팩토리 메서드 패턴과 함께 쓰기 좋음
 @EqualsAndHashCode(of = "id") // ID 기반 동등성
-@Builder
+@Builder(toBuilder = true)
+/** ID 프론트 비공개*/
 public class Member {
 
+  @Setter
   private final Long id;
+  @Setter
   private SmallGroup smallGroup;
   private String name;
   private Gender gender;
