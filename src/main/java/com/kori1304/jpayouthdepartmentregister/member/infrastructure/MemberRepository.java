@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
   MemberEntity findByName(String name);
+  List<MemberEntity> findAllBySmallGroupId(Long smallGroupId);
+  List<MemberEntity> findByNameContaining(String search);
 
-  List<MemberEntity> findAllBySmallGroupEntity_Name(String smallGroupName);
 }

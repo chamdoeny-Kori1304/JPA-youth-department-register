@@ -52,11 +52,11 @@ class MembersJpaAdapter implements Members {
   }
 
   @Override
-  public List<Member> findBySmallGroupName(String name) {
+  public List<Member> findBySmallGroupId(Long id) {
     return RepositoryExceptionHandler.execute(() -> {
 
       List<Member> result = new ArrayList<>();
-      List<MemberEntity> members = memberRepository.findAllBySmallGroupEntity_Name(name);
+      List<MemberEntity> members = memberRepository.findAllBySmallGroupId(id);
 
       for (MemberEntity member : members) {
         result.add(member.toDomain());
@@ -66,11 +66,30 @@ class MembersJpaAdapter implements Members {
     });
   }
 
+  @Override
+  public List<Member> findByNameContaining(String search) {
+    return RepositoryExceptionHandler.execute(() -> {
+      List<Member> result = new ArrayList<>();
+
+      List<MemberEntity> entities = memberRepository.findByNameContaining(search);
+
+      for (MemberEntity entity : entities) {
+        result.add(entity.toDomain());
+      }
+
+      return result;
+
+    });
+  }
+
 
   @Override
   public Member findByName(String name) {
-    return RepositoryExceptionHandler.execute(() ->
-        memberRepository.findByName(name).toDomain()
+    return RepositoryExceptionHandler.execute(() -> {
+
+          MemberEntity entity = memberRepository.findByName(name);
+          return entity.toDomain();
+        }
     );
   }
 

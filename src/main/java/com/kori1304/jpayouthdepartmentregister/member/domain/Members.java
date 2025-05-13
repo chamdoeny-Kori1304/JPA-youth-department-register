@@ -8,8 +8,9 @@ public interface Members {
 
   List<Member>  findAll();
 
-  List<Member> findBySmallGroupName(String groupName);
+  List<Member> findBySmallGroupId(Long id);
   Member findById(Long id);
   Member findByName(String name);
 
+  List<Member> findByNameContaining(String keyword);
 }
