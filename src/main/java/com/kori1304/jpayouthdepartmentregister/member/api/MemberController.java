@@ -53,30 +53,16 @@ public class MemberController {
 
   }
 
-  @Operation(summary = "이름으로 멤버 단일 검색", description = "정확한 이름으로 멤버 1명 검색", tags = {"MemberController"})
-  @GetMapping("/search")
-  public ResponseEntity<?> getByExactName(@RequestParam String name) {
-    try {
-      Member member = memberService.getByName(name);
-      if (member == null) {
-        return ResponseEntity.notFound().build();
-      }
-      return ResponseEntity.ok(member);
-    } catch (Exception e) {
-      return ResponseEntity.internalServerError().body("조회 실패: " + e.getMessage());
-    }
 
-  }
-
-  @Operation(summary = "이름 유사 검색", description = "이름에 포함된 키워드로 모든 멤버 검색", tags = {"MemberController"})
-  @GetMapping("/search/all")
-  public ResponseEntity<?> getBySimilarName(@RequestParam(defaultValue = "") String keyword) {
+  @Operation(summary = "이름 유사 검색", description = "{host}/members?name={name} , name에 포함된 키워드로 모든 멤버 검색", tags = {"MemberController"})
+  @GetMapping("")
+  public ResponseEntity<?> getBySimilarName(@RequestParam(defaultValue = "") String name) {
     try {
-      if (keyword == null || keyword.isEmpty()) {
+      if (name == null || name.isEmpty()) {
         return ResponseEntity.ok(memberService.getAllMembers());
 
       }
-      List<Member> members = memberService.getMembersByNameContaining(keyword);
+      List<Member> members = memberService.getMembersByNameContaining(name);
       return ResponseEntity.ok(members);
     } catch (Exception e) {
       return ResponseEntity.internalServerError().body("검색 실패: " + e.getMessage());

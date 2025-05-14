@@ -31,15 +31,10 @@ Access-Control-Allow-Origin:*
 
 
 ### get Members 검색
-GET localhost:8080/members/search/all?keyword=민준
+GET localhost:8080/members?name=
 Content-Type: application/json
 Accept: */*
 Access-Control-Allow-Origin:*
 
 
 
-### get Members 검색
-GET localhost:8080/members/search/all
-Content-Type: application/json
-Accept: */*
-Access-Control-Allow-Origin:*
