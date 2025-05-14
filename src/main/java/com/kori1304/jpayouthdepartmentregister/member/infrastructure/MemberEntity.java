@@ -1,11 +1,10 @@
 package com.kori1304.jpayouthdepartmentregister.member.infrastructure;
 
-import com.kori1304.jpayouthdepartmentregister.attendance.domain.AttendanceEntity;
+import com.kori1304.jpayouthdepartmentregister.attendance.infrastructure.AttendanceEntity;
 import com.kori1304.jpayouthdepartmentregister._common.BaseEntity;
 import com.kori1304.jpayouthdepartmentregister.member.domain.Gender;
 import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
 import com.kori1304.jpayouthdepartmentregister.member.small_group.SmallGroup;
-import com.kori1304.jpayouthdepartmentregister.member.small_group.infrastructure.SmallGroupEntity;
 
 import jakarta.persistence.*;
 import lombok.*;
