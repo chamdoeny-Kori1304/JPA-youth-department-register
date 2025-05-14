@@ -18,14 +18,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "attendance")
 @Entity
-@Builder
+@Builder(toBuilder = true)
 public class AttendanceEntity extends BaseEntity {
 
   @Column(name = "attendance_date")
   private LocalDate date;
 
   @Column(name = "is_attendance")
-  private boolean isAttendance;
+  private Boolean isAttendance;
 
 
   @Column(name = "member_id")
