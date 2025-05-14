@@ -1,8 +1,12 @@
-package com.kori1304.jpayouthdepartmentregister.member.domain;
+package com.kori1304.jpayouthdepartmentregister.member.infrastructure;
 
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.AttendanceEntity;
 import com.kori1304.jpayouthdepartmentregister._common.BaseEntity;
-import com.kori1304.jpayouthdepartmentregister.member.dto.MemberDTO;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Gender;
+import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
+import com.kori1304.jpayouthdepartmentregister.member.small_group.SmallGroup;
+import com.kori1304.jpayouthdepartmentregister.member.small_group.infrastructure.SmallGroupEntity;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +22,6 @@ import java.util.List;
 @Builder
 public class MemberEntity extends BaseEntity {
 
-  private String smallGroupName;
   private String name;
   private Gender gender;
   private String phoneNumber;
@@ -26,31 +29,37 @@ public class MemberEntity extends BaseEntity {
   private LocalDate birthDate;
   private String humanRelations;
 
+  @Column(name = "small_group_id")
+  private Long smallGroupId;
+
   @Builder.Default
   @OneToMany(mappedBy = "member")
   private List<AttendanceEntity> attendanceList = new ArrayList<>();
 
 
-  static public MemberEntity fromDTO(MemberDTO memberDTO) {
+  static public MemberEntity fromDomain(Member member) {
+    Long smallGroupID = member.getSmallGroup() == null ? null : member.getSmallGroup().getId();
 
-    MemberEntity memberEntity = MemberEntity.builder()
-        .smallGroupName(memberDTO.getSmallGroupName())
-        .name(memberDTO.getName())
-        .gender(memberDTO.getGender())
-        .phoneNumber(memberDTO.getPhoneNumber())
-        .address(memberDTO.getAddress())
-        .birthDate(memberDTO.getBirthDate())
-        .humanRelations(memberDTO.getHumanRelations())
+    MemberEntity entity = MemberEntity.builder()
+        .smallGroupId(smallGroupID)
+        .name(member.getName())
+        .gender(member.getGender())
+        .phoneNumber(member.getPhoneNumber())
+        .address(member.getAddress())
+        .birthDate(member.getBirthDate())
+        .humanRelations(member.getHumanRelations())
         .build();
 
-    return memberEntity;
+    entity.setId(member.getId());
 
+    return entity;
   }
 
   @Override
   public String toString() {
+
     return "MemberEntity{" +
-        "smallGroupName='" + smallGroupName + '\'' +
+        "smallGroupID'" + smallGroupId + '\'' +
         ", name='" + name + '\'' +
         ", gender=" + gender +
         ", phoneNumber='" + phoneNumber + '\'' +
@@ -61,17 +70,18 @@ public class MemberEntity extends BaseEntity {
         '}';
   }
 
-  public MemberDTO toDTO() {
-    MemberDTO memberDTO = MemberDTO.builder()
-        .smallGroupName(smallGroupName)
+  public Member toDomain() {
+    SmallGroup smallGroup = smallGroupId == null ? null : SmallGroup.builder().id(smallGroupId).build();
+
+    return Member.builder()
         .name(name)
         .gender(gender)
         .phoneNumber(phoneNumber)
         .address(address)
         .birthDate(birthDate)
         .humanRelations(humanRelations)
+        .smallGroup(smallGroup)
         .build();
 
-    return memberDTO;
   }
 }

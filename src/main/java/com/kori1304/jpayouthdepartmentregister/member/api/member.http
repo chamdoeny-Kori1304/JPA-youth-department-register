@@ -1,0 +1,40 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+
+### post 테스트
+POST localhost:8080/members
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
+{
+"name": "강동원",
+"gender": "MALE",
+  "phoneNumber": "010-1111-1111",
+  "address": "서울시 강난구 노원동",
+  "birthDate": "1995-04-12",
+  "humanRelations": "가수",
+  "smallGroupName": "청년1팀"
+}
+
+
+
+### get Member 단일 테스트
+GET localhost:8080/members/search?name=김민준
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
+
+### get Members 검색
+GET localhost:8080/members?name=
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
+
+
