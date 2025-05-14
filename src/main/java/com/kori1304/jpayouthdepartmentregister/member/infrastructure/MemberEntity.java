@@ -66,6 +66,7 @@ public class MemberEntity extends BaseEntity {
     SmallGroup smallGroup = smallGroupId == null ? null : SmallGroup.builder().id(smallGroupId).build();
 
     return Member.builder()
+        .id(getId())
         .name(name)
         .gender(gender)
         .phoneNumber(phoneNumber)
