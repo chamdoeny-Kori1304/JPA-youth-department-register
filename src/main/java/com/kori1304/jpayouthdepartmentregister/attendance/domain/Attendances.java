@@ -1,15 +1,20 @@
 package com.kori1304.jpayouthdepartmentregister.attendance.domain;
 
-import com.kori1304.jpayouthdepartmentregister.attendance.infrastructure.AttendanceEntity;
+import java.time.LocalDate;
+import java.util.List;
 
 
 public interface Attendances {
 
 
-  public AttendanceEntity add(Long memberId, Attendance attendance);
+  Attendance add(Long memberId, Attendance attendance);
 
-  public AttendanceEntity update(Long memberId, Attendance attendance);
+  Attendance update(Attendance attendance);
 
-  public boolean delete(Long memberId, Attendance attendance);
+  List<Attendance> getByMemberId(Long memberId);
+
+  List<LocalDate> getByDatesByMemberId(Long memberId);
+
+  boolean delete(Long memberId, Attendance attendance);
 
 }
