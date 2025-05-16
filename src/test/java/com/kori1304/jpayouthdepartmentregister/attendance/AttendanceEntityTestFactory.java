@@ -1,8 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister.attendance;
 
 import com.kori1304.jpayouthdepartmentregister.attendance.infrastructure.AttendanceEntity;
-import com.kori1304.jpayouthdepartmentregister.member.domain.Gender;
-import com.kori1304.jpayouthdepartmentregister.member.infrastructure.MemberEntity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,7 @@ public class AttendanceEntityTestFactory {
     return entities;
   }
 
-  public static AttendanceEntity getSampleMemberEntity(int number) {
+  public static AttendanceEntity getSample(int number) {
     if (number > 9 || number < 0) {
       return null;
     }
