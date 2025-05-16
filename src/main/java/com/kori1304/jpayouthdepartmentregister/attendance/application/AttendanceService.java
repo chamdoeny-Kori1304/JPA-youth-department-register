@@ -1,5 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister.attendance.application;
 
+import com.kori1304.jpayouthdepartmentregister._common.RepositoryAccessException;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendance;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendances;
 import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
@@ -17,12 +18,15 @@ public class AttendanceService {
   private final Attendances attendances;
 
   public boolean add(Long memberId, Attendance attendance) {
-    Attendance domain = attendances.add(memberId, attendance);
+    try {
+      Attendance domain = attendances.add(memberId, attendance);
+      return domain.getClass() == Attendance.class;
 
-    if (domain.getClass() == Attendance.class) {
-      return true;
+    } catch (Exception e) {
+      log.error("레포지토리 접근 실패", e);
+
+      return false;
     }
-    return false;
   }
 
   //TODO MemberService로 이동
@@ -33,22 +37,42 @@ public class AttendanceService {
 
   public List<Attendance> getByMember(Long memberId) {
 
-    return    attendances.getByMemberId(memberId);
+    try {
+      List<Attendance> result = attendances.getByMemberId(memberId);
+      return result;
+
+    } catch (Exception e) {
+      log.error("getByMember() 실패", e);
+
+      return null;
+    }
 
   }
 
   public List<LocalDate> getDatesByMember(Long memberId) {
 
-    return attendances.getByDatesByMemberId(memberId);
+    try {
+      List<LocalDate> result = attendances.getByDatesByMemberId(memberId);
+      return result;
+
+    } catch (Exception e) {
+      log.error("getDatesByMember() 실패", e);
+
+      return null;
+    }
   }
 
   public boolean update(Attendance attendance) {
-    Attendance domain = attendances.update(attendance);
 
-    if (domain.getClass() == Attendance.class) {
-      return true;
+    try {
+      Attendance domain = attendances.update(attendance);
+      return domain.getClass() == Attendance.class;
+
+    } catch (Exception e) {
+      log.error("update() 실패", e);
+
+      return false;
     }
-    return false;
   }
 
 
