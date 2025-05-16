@@ -1,5 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister.attendance.infrastructure;
 
+import com.kori1304.jpayouthdepartmentregister._common.RepositoryAccessException;
 import com.kori1304.jpayouthdepartmentregister.attendance.AttendanceEntityTestFactory;
 import com.kori1304.jpayouthdepartmentregister.attendance.AttendanceTestFactory;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendance;
@@ -36,9 +37,8 @@ class AttendanceJpaAdapterTest {
   @Test
   void add_ShouldSaveAttendance() {
     // Given
-//    Attendance
-    Attendance attendance = AttendanceTestFactory.getSampleMemberEntity(0);
-    AttendanceEntity attendanceEntity = AttendanceEntityTestFactory.getSampleMemberEntity(0);
+    Attendance attendance = AttendanceTestFactory.getSample(1);
+    AttendanceEntity attendanceEntity = AttendanceEntityTestFactory.getSample(1);
 
     when(modelMapper.map(attendance, AttendanceEntity.class)).thenReturn(attendanceEntity);
     when(attendanceRepository.save(attendanceEntity)).thenReturn(attendanceEntity);
@@ -56,10 +56,24 @@ class AttendanceJpaAdapterTest {
   }
 
   @Test
+  void add_ShouldThrowRepositoryAccessException() {
+    // Given
+    Attendance attendance = AttendanceTestFactory.getSample(1);
+    AttendanceEntity attendanceEntity = AttendanceEntityTestFactory.getSample(1);
+    RuntimeException expectedException = new RuntimeException("Error saving attendance");
+
+    when(modelMapper.map(attendance, AttendanceEntity.class)).thenReturn(attendanceEntity);
+    when(attendanceRepository.save(attendanceEntity)).thenThrow(expectedException);
+
+    // When
+    assertThrows(RepositoryAccessException.class, () -> attendanceJpaAdapter.add(1L, attendance));
+  }
+
+  @Test
   void update_ShouldUpdateAttendance() {
     // Given
-    Attendance attendance = AttendanceTestFactory.getSampleMemberEntity(1);
-    AttendanceEntity attendanceEntity = AttendanceEntityTestFactory.getSampleMemberEntity(1);
+    Attendance attendance = AttendanceTestFactory.getSample(1);
+    AttendanceEntity attendanceEntity = AttendanceEntityTestFactory.getSample(1);
 
     when(modelMapper.map(attendance, AttendanceEntity.class)).thenReturn(attendanceEntity);
     when(attendanceRepository.save(attendanceEntity)).thenReturn(attendanceEntity);
@@ -77,16 +91,30 @@ class AttendanceJpaAdapterTest {
   }
 
   @Test
+  void update_ShouldThrowRepositoryAccessException() {
+    // Given
+    Attendance attendance = AttendanceTestFactory.getSample(1);
+    AttendanceEntity attendanceEntity = AttendanceEntityTestFactory.getSample(1);
+    RuntimeException expectedException = new RuntimeException("Error updating attendance");
+
+    when(modelMapper.map(attendance, AttendanceEntity.class)).thenReturn(attendanceEntity);
+    when(attendanceRepository.save(attendanceEntity)).thenThrow(expectedException);
+
+    // When
+    assertThrows(RepositoryAccessException.class, () -> attendanceJpaAdapter.update(attendance));
+  }
+
+  @Test
   void getByMemberId_ShouldReturnAttendanceList() {
     // Given
     Long memberId = 1L;
-    AttendanceEntity attendanceEntity1 = AttendanceEntityTestFactory.getSampleMemberEntity(3);
-    AttendanceEntity attendanceEntity2 = AttendanceEntityTestFactory.getSampleMemberEntity(4);
+    AttendanceEntity attendanceEntity1 = AttendanceEntityTestFactory.getSample(1);
+    AttendanceEntity attendanceEntity2 = AttendanceEntityTestFactory.getSample(2);
     List<AttendanceEntity> attendanceEntities = Arrays.asList(attendanceEntity1, attendanceEntity2);
 
     when(attendanceRepository.getAllByMemberIdAndIsAttendance(memberId, true)).thenReturn(attendanceEntities);
-    when(modelMapper.map(attendanceEntity1, Attendance.class)).thenReturn(AttendanceTestFactory.getSampleMemberEntity(3));
-    when(modelMapper.map(attendanceEntity2, Attendance.class)).thenReturn(AttendanceTestFactory.getSampleMemberEntity(4));
+    when(modelMapper.map(attendanceEntity1, Attendance.class)).thenReturn(AttendanceTestFactory.getSample(1));
+    when(modelMapper.map(attendanceEntity2, Attendance.class)).thenReturn(AttendanceTestFactory.getSample(2));
 
     // When
     List<Attendance> result = attendanceJpaAdapter.getByMemberId(memberId);
@@ -100,11 +128,23 @@ class AttendanceJpaAdapterTest {
   }
 
   @Test
+  void getByMemberId_ShouldThrowRepositoryAccessException() {
+    // Given
+    Long memberId = 1L;
+    RuntimeException expectedException = new RuntimeException("Error retrieving attendance by member ID");
+
+    when(attendanceRepository.getAllByMemberIdAndIsAttendance(memberId, true)).thenThrow(expectedException);
+
+    // When
+    assertThrows(RepositoryAccessException.class, () -> attendanceJpaAdapter.getByMemberId(memberId));
+  }
+
+  @Test
   void getByDatesByMemberId_ShouldReturnDateList() {
     // Given
     Long memberId = 1L;
-    AttendanceEntity attendanceEntity1 = AttendanceEntityTestFactory.getSampleMemberEntity(3);
-  AttendanceEntity attendanceEntity2 =  AttendanceEntityTestFactory.getSampleMemberEntity(4);
+    AttendanceEntity attendanceEntity1 = AttendanceEntityTestFactory.getSample(1);
+    AttendanceEntity attendanceEntity2 = AttendanceEntityTestFactory.getSample(2);
     List<AttendanceEntity> attendanceEntities = Arrays.asList(attendanceEntity1, attendanceEntity2);
 
     when(attendanceRepository.getAllByMemberIdAndIsAttendance(memberId, true)).thenReturn(attendanceEntities);
@@ -118,5 +158,30 @@ class AttendanceJpaAdapterTest {
     assertTrue(result.contains(attendanceEntity1.getDate()));
     assertTrue(result.contains(attendanceEntity2.getDate()));
     verify(attendanceRepository, times(1)).getAllByMemberIdAndIsAttendance(memberId, true);
+  }
+
+  @Test
+  void getByDatesByMemberId_ShouldThrowRepositoryAccessException() {
+    // Given
+    Long memberId = 1L;
+    RuntimeException expectedException = new RuntimeException("Error retrieving attendance dates by member ID");
+
+    when(attendanceRepository.getAllByMemberIdAndIsAttendance(memberId, true)).thenThrow(expectedException);
+
+    // When
+    assertThrows(RepositoryAccessException.class, () -> attendanceJpaAdapter.getByDatesByMemberId(memberId));
+  }
+
+  @Test
+  void delete_ShouldReturnFalse() {
+    // Given
+    Long attendanceId = 1L;
+    Attendance attendance = AttendanceTestFactory.getSample(1);
+
+    // When
+    boolean result = attendanceJpaAdapter.delete(attendanceId, attendance);
+
+    // Then
+    assertFalse(result);
   }
 }
