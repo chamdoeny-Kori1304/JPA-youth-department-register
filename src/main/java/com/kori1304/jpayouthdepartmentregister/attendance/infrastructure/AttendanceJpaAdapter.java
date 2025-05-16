@@ -1,5 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister.attendance.infrastructure;
 
+import com.kori1304.jpayouthdepartmentregister._common.RepositoryAccessException;
 import com.kori1304.jpayouthdepartmentregister._common.util.RepositoryExceptionHandler;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendance;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendances;
@@ -10,7 +11,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.repository.core.RepositoryCreationException;
 import org.springframework.stereotype.Repository;
 
 
@@ -28,7 +28,7 @@ public class AttendanceJpaAdapter implements Attendances {
   final ModelMapper modelMapper;
 
   @Override
-  public Attendance add(Long memberId, Attendance attendance) {
+  public Attendance add(Long memberId, Attendance attendance) throws RepositoryAccessException {
     return RepositoryExceptionHandler.execute(() -> {
 
       AttendanceEntity entity = modelMapper.map(attendance, AttendanceEntity.class);
@@ -39,7 +39,7 @@ public class AttendanceJpaAdapter implements Attendances {
   }
 
   @Override
-  public Attendance update(Attendance attendance) {
+  public Attendance update(Attendance attendance) throws RepositoryAccessException {
     return RepositoryExceptionHandler.execute(() -> {
 
       AttendanceEntity entity = modelMapper.map(attendance, AttendanceEntity.class);
@@ -51,7 +51,7 @@ public class AttendanceJpaAdapter implements Attendances {
   }
 
   @Override
-  public List<Attendance> getByMemberId(Long memberId) {
+  public List<Attendance> getByMemberId(Long memberId) throws RepositoryAccessException {
     return RepositoryExceptionHandler.execute(() -> {
 
       List<AttendanceEntity> res = attendanceRepository.getAllByMemberIdAndIsAttendance(memberId, true);
@@ -63,7 +63,7 @@ public class AttendanceJpaAdapter implements Attendances {
   }
 
   @Override
-  public List<LocalDate> getByDatesByMemberId(Long memberId) {
+  public List<LocalDate> getByDatesByMemberId(Long memberId) throws RepositoryAccessException {
     return RepositoryExceptionHandler.execute(() -> {
 
       List<LocalDate> response = new ArrayList<>();
