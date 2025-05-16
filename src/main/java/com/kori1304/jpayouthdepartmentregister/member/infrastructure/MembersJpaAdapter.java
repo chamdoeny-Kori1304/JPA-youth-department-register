@@ -8,6 +8,10 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+/** TODO
+ * 1. Member의 id와 nmae은 table에 중복이 안 된다.
+ * */
+
 @Repository
 @RequiredArgsConstructor
 class MembersJpaAdapter implements Members {
