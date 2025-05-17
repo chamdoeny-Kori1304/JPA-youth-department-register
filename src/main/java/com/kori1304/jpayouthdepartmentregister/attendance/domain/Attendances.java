@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Attendances {
 
-  Attendance add(Long memberId, Attendance attendance) throws RepositoryAccessException;
+  Attendance add(Attendance attendance) throws RepositoryAccessException;
 
   Attendance update(Attendance attendance) throws RepositoryAccessException;
 

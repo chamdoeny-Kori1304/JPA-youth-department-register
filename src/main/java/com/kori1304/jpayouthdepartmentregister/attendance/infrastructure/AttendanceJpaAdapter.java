@@ -28,7 +28,7 @@ public class AttendanceJpaAdapter implements Attendances {
   final ModelMapper modelMapper;
 
   @Override
-  public Attendance add(Long memberId, Attendance attendance) throws RepositoryAccessException {
+  public Attendance add(Attendance attendance) throws RepositoryAccessException {
     return RepositoryExceptionHandler.execute(() -> {
 
       AttendanceEntity entity = modelMapper.map(attendance, AttendanceEntity.class);
