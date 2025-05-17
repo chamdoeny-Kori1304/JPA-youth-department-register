@@ -1,0 +1,32 @@
+### post 테스트
+POST localhost:8080/attendances
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
+{
+  "date": "2025-05-18",
+  "name": "한예린",
+  "isAttendance": true
+}
+
+
+### PUT 테스트
+PUT localhost:8080/attendances
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
+{
+  "date": "2025-05-18",
+  "name": "한예린",
+  "isAttendance": true
+}
+
+
+### GET 테스트
+GET localhost:8080/attendances?name=한예린
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
