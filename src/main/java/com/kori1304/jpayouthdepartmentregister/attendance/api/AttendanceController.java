@@ -54,14 +54,16 @@ public class AttendanceController {
 
     try {
       Member member = memberService.getByName(dto.getName());
-      boolean res = attendanceService.add(member.getId(), dto);
-      return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.CREATED, "출석 체크: " + res, res));
+      Boolean res = attendanceService.add(member.getId(), dto);
+      HttpStatus httpStatus = res ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+
+      return ResponseEntity.ok().body(new ResponseDTO(httpStatus, "출석 체크: " + res, res));
     } catch (Exception e) {
-      return handleServerError("출석 체크 실패", e);
+      return handleServerError("출석 생성 실패: " + e.getMessage(), e);
     }
   }
 
-  @Operation(summary = "출석 수정", description = "멤버 이름, ", tags = {"AttendanceController"})
+  @Operation(summary = "출석 수정", description = "멤버 이름, 결과 값이 true면 성공 false나 ", tags = {"AttendanceController"})
   @PutMapping("")
   public ResponseEntity<ResponseDTO> put(@RequestBody Attendance dto) {
     ResponseEntity<ResponseDTO> reject = validateSundayOrReject(dto.getDate());
@@ -69,17 +71,15 @@ public class AttendanceController {
       return reject;
     }
 
-    try {
-      boolean res = attendanceService.update(dto);
-      return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "출석 수정: " + res, res));
-    } catch (Exception e) {
-      return handleServerError("출석 수정 실패", e);
-    }
+    boolean res = attendanceService.update(dto);
+    HttpStatus httpStatus = res ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+
+    return ResponseEntity.ok().body(new ResponseDTO(httpStatus, "출석 수정: " + res, res));
   }
 
   @Operation(summary = "", description = "멤버 이름, ", tags = {"AttendanceController"})
   @GetMapping("")
-  public ResponseEntity<ResponseDTO> get(@RequestParam(defaultValue = "") String memberName) {
+  public ResponseEntity<ResponseDTO> get(@RequestParam(name = "name", defaultValue = "") String memberName) {
 
     if (memberName == null || memberName.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
@@ -87,8 +87,10 @@ public class AttendanceController {
     }
 
     Member member = memberService.getByName(memberName);
-    List<LocalDate> res = attendanceService.getDatesByMember(member.getId());
-    return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.CREATED, "조회 성공", res));
+    List<LocalDate> res = attendanceService.getDatesByMemberOrNull(member.getId());
+    HttpStatus httpStatus = res != null ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+
+    return ResponseEntity.ok().body(new ResponseDTO(httpStatus, "조회 성공", res));
 
   }
 
@@ -104,7 +106,7 @@ public class AttendanceController {
 
   private ResponseEntity<ResponseDTO> handleServerError(String message, Exception e) {
     return ResponseEntity.internalServerError()
-        .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, message, false));
+        .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR, message, e.getCause()));
   }
 
 
