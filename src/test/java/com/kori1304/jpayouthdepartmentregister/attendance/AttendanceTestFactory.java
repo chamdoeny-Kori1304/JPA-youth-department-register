@@ -28,6 +28,7 @@ public class AttendanceTestFactory {
 
     for (Object[] row : SAMPLE_DATA) {
       entities.add(Attendance.builder()
+          .id((Long) row[0])
           .name((String) row[1])
           .date((LocalDate) row[2])
           .isAttendance((Boolean) row[3])
@@ -47,6 +48,7 @@ public class AttendanceTestFactory {
     Object[] row = SAMPLE_DATA[number];
 
     return Attendance.builder()
+        .id((Long) row[0])
         .name((String) row[1])
         .date((LocalDate) row[2])
         .isAttendance((Boolean) row[3])
