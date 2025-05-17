@@ -45,7 +45,7 @@ class AttendanceJpaAdapterTest {
     when(modelMapper.map(attendanceEntity, Attendance.class)).thenReturn(attendance);
 
     // When
-    Attendance result = attendanceJpaAdapter.add(1L, attendance);
+    Attendance result = attendanceJpaAdapter.add(attendance);
 
     // Then
     assertNotNull(result);
@@ -66,7 +66,7 @@ class AttendanceJpaAdapterTest {
     when(attendanceRepository.save(attendanceEntity)).thenThrow(expectedException);
 
     // When
-    assertThrows(RepositoryAccessException.class, () -> attendanceJpaAdapter.add(1L, attendance));
+    assertThrows(RepositoryAccessException.class, () -> attendanceJpaAdapter.add(attendance));
   }
 
   @Test

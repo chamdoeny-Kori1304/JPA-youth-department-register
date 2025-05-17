@@ -34,14 +34,14 @@ class AttendanceServiceTest {
   void add_ShouldReturnTrueWhenAttendanceIsSaved() {
     // Given
     Attendance attendance = AttendanceTestFactory.getSample(1);
-    when(attendances.add(1L, attendance)).thenReturn(attendance);
+    when(attendances.add(attendance)).thenReturn(attendance);
 
     // When
     boolean result = attendanceService.add(1L, attendance);
 
     // Then
     assertTrue(result);
-    verify(attendances, times(1)).add(1L, attendance);
+    verify(attendances, times(1)).add(attendance);
   }
 
 
@@ -50,18 +50,16 @@ class AttendanceServiceTest {
     // Given
     Attendance attendance = AttendanceTestFactory.getSample(1);
     RepositoryAccessException expectedException = new RepositoryAccessException("Error saving attendance");
-    when(attendances.add(1L, attendance)).thenThrow(expectedException);
+    when(attendances.add(attendance)).thenThrow(expectedException);
 
-    // When
-    boolean result = attendanceService.add(1L, attendance);
 
-    // Then
-    assertFalse(result);
-    verify(attendances, times(1)).add(1L, attendance);
+    // When&Then
+    assertThrows(RuntimeException.class, () -> attendanceService.add(1L, attendance));
+    verify(attendances, times(1)).add(attendance);
   }
 
   @Test
-  void getByMember_ShouldReturnAttendanceList() {
+  void getByMember_OrNull_ShouldReturnAttendanceList() {
     // Given
     Long memberId = 1L;
     Attendance attendance1 = AttendanceTestFactory.getSample(1);
@@ -71,7 +69,7 @@ class AttendanceServiceTest {
     when(attendances.getByMemberId(memberId)).thenReturn(attendanceList);
 
     // When
-    List<Attendance> result = attendanceService.getByMember(memberId);
+    List<Attendance> result = attendanceService.getByMemberOrNull(memberId);
 
     // Then
     assertNotNull(result);
@@ -80,14 +78,14 @@ class AttendanceServiceTest {
   }
 
   @Test
-  void getByMember_ShouldReturnNullWhenRepositoryAccessExceptionOccurs() {
+  void getByMember_OrNull_ShouldReturnNullWhenRepositoryAccessExceptionOccurs() {
     // Given
     Long memberId = 1L;
     RuntimeException expectedException = new RuntimeException("Error retrieving attendance by member ID");
     when(attendances.getByMemberId(memberId)).thenThrow(expectedException);
 
     // When
-    List<Attendance> result = attendanceService.getByMember(memberId);
+    List<Attendance> result = attendanceService.getByMemberOrNull(memberId);
 
     // Then
     assertNull(result);
@@ -95,7 +93,7 @@ class AttendanceServiceTest {
   }
 
   @Test
-  void getDatesByMember_ShouldReturnDateList() {
+  void getDatesByMember_OrNull_ShouldReturnDateList() {
     // Given
     Long memberId = 1L;
     LocalDate date1 = LocalDate.now();
@@ -105,7 +103,7 @@ class AttendanceServiceTest {
     when(attendances.getByDatesByMemberId(memberId)).thenReturn(dateList);
 
     // When
-    List<LocalDate> result = attendanceService.getDatesByMember(memberId);
+    List<LocalDate> result = attendanceService.getDatesByMemberOrNull(memberId);
 
     // Then
     assertNotNull(result);
@@ -116,14 +114,14 @@ class AttendanceServiceTest {
   }
 
   @Test
-  void getDatesByMember_ShouldReturnNullWhenRepositoryAccessExceptionOccurs() {
+  void getDatesByMember_OrNull_ShouldReturnNullWhenRepositoryAccessExceptionOccurs() {
     // Given
     Long memberId = 1L;
     RuntimeException expectedException = new RuntimeException("Error retrieving attendance dates by member ID");
     when(attendances.getByDatesByMemberId(memberId)).thenThrow(expectedException);
 
     // When
-    List<LocalDate> result = attendanceService.getDatesByMember(memberId);
+    List<LocalDate> result = attendanceService.getDatesByMemberOrNull(memberId);
 
     // Then
     assertNull(result);
