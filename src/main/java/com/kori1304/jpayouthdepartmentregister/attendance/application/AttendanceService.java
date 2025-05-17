@@ -1,6 +1,5 @@
 package com.kori1304.jpayouthdepartmentregister.attendance.application;
 
-import com.kori1304.jpayouthdepartmentregister._common.RepositoryAccessException;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendance;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendances;
 import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
@@ -17,15 +16,26 @@ public class AttendanceService {
 
   private final Attendances attendances;
 
+  /**
+   * add()는 예외적으로 Contoller에서 throw으로 에러를 반환한다
+   * */
   public boolean add(Long memberId, Attendance attendance) {
+
     try {
-      Attendance domain = attendances.add(memberId, attendance);
-      return domain.getClass() == Attendance.class;
+      List<LocalDate> dates = getDatesByMemberOrNull(memberId);
+      if (dates.contains(attendance.getDate())) {
+        throw new IllegalStateException(attendance.getName()+"/"+dates+"은 이미 존재합니다");
+      }
+
+      attendance.setMemberId(memberId);
+      Attendance newAttendance = attendances.add(attendance);
+      return newAttendance.getClass() == Attendance.class;
+
 
     } catch (Exception e) {
       log.error("레포지토리 접근 실패", e);
 
-      return false;
+     throw new RuntimeException(e);
     }
   }
 
@@ -35,7 +45,7 @@ public class AttendanceService {
     return null;
   }
 
-  public List<Attendance> getByMember(Long memberId) {
+  public List<Attendance> getByMemberOrNull(Long memberId) {
 
     try {
       List<Attendance> result = attendances.getByMemberId(memberId);
@@ -49,7 +59,7 @@ public class AttendanceService {
 
   }
 
-  public List<LocalDate> getDatesByMember(Long memberId) {
+  public List<LocalDate> getDatesByMemberOrNull(Long memberId) {
 
     try {
       List<LocalDate> result = attendances.getByDatesByMemberId(memberId);
