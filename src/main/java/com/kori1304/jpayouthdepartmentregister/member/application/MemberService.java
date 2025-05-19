@@ -21,6 +21,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 
+// TODO 모든 메서드 try catch 사용해서  return 값 설정,
 public class MemberService {
 
   private final Members members; // 도메인 리포지토리 인터페이스
@@ -75,6 +76,7 @@ public class MemberService {
     return members.findById(id);
   }
 
+  // TODO try catch 사용해서 return 값 설정
   public Member getByName(String name) {
     return members.findByName(name);
   }

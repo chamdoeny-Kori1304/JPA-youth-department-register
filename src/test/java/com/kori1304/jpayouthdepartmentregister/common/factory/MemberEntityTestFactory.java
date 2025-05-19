@@ -9,17 +9,18 @@ import com.kori1304.jpayouthdepartmentregister.member.infrastructure.MemberEntit
 
 public class MemberEntityTestFactory {
 
+  public static String[] names= {"홍길동","김영희", "이철수","박지민", "최수민", "한지훈" , "서예린", "정우진", "유하늘", "노진혁"};
   private static final Object[][] SAMPLE_DATA = {
-      {1L, "홍길동", Gender.MALE, "777-1111-1111", "서울특별시 강남구", LocalDate.of(1995, 1, 15), "김철수", 1L},
-      {2L, "김영희", Gender.FEMALE, "777-2222-2222", "서울특별시 마포구", LocalDate.of(1994, 5, 10), "이영수", 1L},
-      {3L, "이철수", Gender.MALE, "777-3333-3333", "부산광역시 해운대구", LocalDate.of(1996, 3, 25), "홍길동", 2L},
-      {4L, "박지민", Gender.FEMALE, "777-4444-4444", "대전광역시 유성구", LocalDate.of(1995, 12, 5), "김영희", 2L},
-      {5L, "최수민", Gender.FEMALE, "777-5555-5555", "광주광역시 서구", LocalDate.of(1997, 7, 18), "이철수", 3L},
-      {6L, "한지훈", Gender.MALE, "777-6666-6666", "인천광역시 연수구", LocalDate.of(1993, 9, 9), "박지민", 3L},
-      {7L, "서예린", Gender.FEMALE, "777-7777-7777", "대구광역시 중구", LocalDate.of(1998, 11, 30), "최수민", 4L},
-      {8L, "정우진", Gender.MALE, "777-8888-8888", "울산광역시 남구", LocalDate.of(1992, 6, 6), "한지훈", 4L},
-      {9L, "유하늘", Gender.FEMALE, "777-9999-9999", "경기도 성남시", LocalDate.of(1999, 4, 20), "서예린", 5L},
-      {10L, "노진혁", Gender.MALE, "777-0000-0000", "경기도 수원시", LocalDate.of(1990, 10, 1), "정우진", 5L}
+      {1L, names[0], Gender.MALE, "777-1111-1111", "서울특별시 강남구", LocalDate.of(1995, 1, 15), "김철수", 1L},
+      {2L, names[1], Gender.FEMALE, "777-2222-2222", "서울특별시 마포구", LocalDate.of(1994, 5, 10), "이영수", 1L},
+      {3L, names[2], Gender.MALE, "777-3333-3333", "부산광역시 해운대구", LocalDate.of(1996, 3, 25), "홍길동", 2L},
+      {4L, names[3], Gender.FEMALE, "777-4444-4444", "대전광역시 유성구", LocalDate.of(1995, 12, 5), "김영희", 2L},
+      {5L, names[4], Gender.FEMALE, "777-5555-5555", "광주광역시 서구", LocalDate.of(1997, 7, 18), "이철수", 3L},
+      {6L, names[5], Gender.MALE, "777-6666-6666", "인천광역시 연수구", LocalDate.of(1993, 9, 9), "박지민", 3L},
+      {7L, names[6], Gender.FEMALE, "777-7777-7777", "대구광역시 중구", LocalDate.of(1998, 11, 30), "최수민", 4L},
+      {8L, names[7], Gender.MALE, "777-8888-8888", "울산광역시 남구", LocalDate.of(1992, 6, 6), "한지훈", 4L},
+      {9L, names[8], Gender.FEMALE, "777-9999-9999", "경기도 성남시", LocalDate.of(1999, 4, 20), "서예린", 5L},
+      {10L, names[9], Gender.MALE, "777-0000-0000", "경기도 수원시", LocalDate.of(1990, 10, 1), "정우진", 5L}
   };
 
   public static List<MemberEntity> createSampleEntities() {

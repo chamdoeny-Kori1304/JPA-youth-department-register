@@ -1,6 +1,5 @@
 package com.kori1304.jpayouthdepartmentregister.member.infrastructure;
 
-import com.kori1304.jpayouthdepartmentregister.attendance.infrastructure.AttendanceEntity;
 import com.kori1304.jpayouthdepartmentregister._common.BaseEntity;
 import com.kori1304.jpayouthdepartmentregister.member.domain.Gender;
 import com.kori1304.jpayouthdepartmentregister.member.domain.Member;
@@ -10,8 +9,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -31,9 +28,6 @@ public class MemberEntity extends BaseEntity {
   @Column(name = "small_group_id")
   private Long smallGroupId;
 
-  @Builder.Default
-  @OneToMany(mappedBy = "member")
-  private List<AttendanceEntity> attendanceList = new ArrayList<>();
 
 
   static public MemberEntity fromDomain(Member member) {
@@ -65,7 +59,6 @@ public class MemberEntity extends BaseEntity {
         ", address='" + address + '\'' +
         ", birthDate=" + birthDate +
         ", humanRelations='" + humanRelations + '\'' +
-        ", attendanceList=" + attendanceList +
         '}';
   }
 
@@ -73,6 +66,7 @@ public class MemberEntity extends BaseEntity {
     SmallGroup smallGroup = smallGroupId == null ? null : SmallGroup.builder().id(smallGroupId).build();
 
     return Member.builder()
+        .id(getId())
         .name(name)
         .gender(gender)
         .phoneNumber(phoneNumber)

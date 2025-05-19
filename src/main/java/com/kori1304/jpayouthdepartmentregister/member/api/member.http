@@ -23,15 +23,10 @@ Access-Control-Allow-Origin:*
 
 
 
-### get Member 단일 테스트
-GET localhost:8080/members/search?name=김민준
-Content-Type: application/json
-Accept: */*
-Access-Control-Allow-Origin:*
 
 
 ### get Members 검색
-GET localhost:8080/members?name=
+GET localhost:8080/members?name=김민
 Content-Type: application/json
 Accept: */*
 Access-Control-Allow-Origin:*
