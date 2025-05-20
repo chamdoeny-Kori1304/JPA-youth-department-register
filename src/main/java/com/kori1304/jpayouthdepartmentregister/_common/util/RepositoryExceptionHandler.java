@@ -1,6 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister._common.util;
 
-import com.kori1304.jpayouthdepartmentregister._common.RepositoryAccessException;
+import com.kori1304.jpayouthdepartmentregister._common.exception.RepositoryAccessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 
