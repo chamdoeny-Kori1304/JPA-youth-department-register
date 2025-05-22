@@ -3,6 +3,7 @@ package com.kori1304.jpayouthdepartmentregister.member.small_group.infrastructur
 import com.kori1304.jpayouthdepartmentregister._common.BaseEntity;
 import com.kori1304.jpayouthdepartmentregister.member.small_group.SmallGroup;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "small_group")
 @Entity
 @Builder
 /**ID 프론트 공개*/
