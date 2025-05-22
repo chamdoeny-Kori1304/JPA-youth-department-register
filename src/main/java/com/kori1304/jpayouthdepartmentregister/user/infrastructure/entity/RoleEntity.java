@@ -1,14 +1,11 @@
 package com.kori1304.jpayouthdepartmentregister.user.infrastructure.entity;
 
-import com.kori1304.jpayouthdepartmentregister._common.BaseEntity;
-import com.kori1304.jpayouthdepartmentregister.user.infrastructure.UserRolePk;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
