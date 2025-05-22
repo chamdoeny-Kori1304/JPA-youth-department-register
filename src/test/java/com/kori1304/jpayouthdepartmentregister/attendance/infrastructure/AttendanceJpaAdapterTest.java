@@ -1,6 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister.attendance.infrastructure;
 
-import com.kori1304.jpayouthdepartmentregister._common.RepositoryAccessException;
+import com.kori1304.jpayouthdepartmentregister._common.exception.RepositoryAccessException;
 import com.kori1304.jpayouthdepartmentregister.attendance.AttendanceEntityTestFactory;
 import com.kori1304.jpayouthdepartmentregister.attendance.AttendanceTestFactory;
 import com.kori1304.jpayouthdepartmentregister.attendance.domain.Attendance;
