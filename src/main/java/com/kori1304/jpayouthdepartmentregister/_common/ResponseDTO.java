@@ -24,6 +24,9 @@ public class ResponseDTO {
     this.data = data;
   }
 
+  static public ResponseDTO fromException(HttpStatus httpStatus, Exception e) {
+    return new ResponseDTO(httpStatus, e.getMessage(), e.getCause());
+  }
 
 
 }
