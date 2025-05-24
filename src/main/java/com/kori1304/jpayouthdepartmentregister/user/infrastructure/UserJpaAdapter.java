@@ -1,6 +1,5 @@
 package com.kori1304.jpayouthdepartmentregister.user.infrastructure;
 
-import com.kori1304.jpayouthdepartmentregister._common.jwt.TokenProvider;
 import com.kori1304.jpayouthdepartmentregister._common.util.RepositoryExceptionHandler;
 import com.kori1304.jpayouthdepartmentregister.user.domain.Users;
 import com.kori1304.jpayouthdepartmentregister.user.domain.model.User;
@@ -16,9 +15,7 @@ public class UserJpaAdapter implements Users {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private final TokenProvider tokenProvider;
   private final ModelMapper modelMapper;
-  private final RoleRepository roleRepository;
 
   @Override
   public User save(User user) {
