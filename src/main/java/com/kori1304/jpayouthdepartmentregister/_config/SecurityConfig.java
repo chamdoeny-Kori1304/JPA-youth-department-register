@@ -63,33 +63,18 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         // 2. 예외 처리
         .exceptionHandling(exception -> {
-          // 필요한 권한이 없을 때 403(Forbidden)을 반환
-          exception.authenticationEntryPoint(jwtAuthenticationEntryPoint);
-          // 인증되지 않은 접근 시 401(Unauthorized)를 반환
-          exception.accessDeniedHandler(jwtAccessDeniedHandler);
+          // 로그인 필요시 반환
+          exception.authenticationEntryPoint(jwtAuthenticationEntryPoint); // [HTTP] 401(Unauthorized)
+          exception.accessDeniedHandler(jwtAccessDeniedHandler); // [HTTP] 403(Forbidden)
         })
         // 3. HTTP 요청에 대한 접근 권한 설정
         .authorizeHttpRequests(auth -> {
-          /* 설명.
-           *  CORS를 위해 preflight 요청 처리용 options 요청 허용.
-           *  ====================================================================================================
-           *  preflight request란?
-           *  요청 할 url이 외부 도메인일 경우 웹 브라우저에서 자체 실행되며 options 메소드로 사전 요청을 보내게 된다.
-           *  사전에 요청이 안전한지 확인하기 위함(유효한지 서버에 미리 파악할 수 있도록 보내는 수단이다.)
-           * */
-          // CORS Preflight 요청 허용
           auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-          // root 경로는 인증 필요
+          auth.requestMatchers("/actuator/health", "/actuator/prometheus").permitAll();
           auth.requestMatchers("/").authenticated();
-          // 특정 경로는 무조건 허용
           auth.requestMatchers("/auth/**", "/api/v1/products/**", "/api/v1/reviews/**").permitAll();
-          // Swagger API 문서 허용
           auth.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
-          // API 경로는 USER 또는 ADMIN 역할을 가진 사용자만 접근 가능
           auth.requestMatchers("/api/**").hasAnyRole("USER", "ADMIN");
-          /* 설명. 아래는 프로젝트 초기 구현시, Security 기능을 약화시켜 개발을 진행하게 끔 해주는 내용들이다. */
-          // 어떤 요청이든 허용 -> Security를 활용한 로그인이 모두 완성되지 않았을 때 사용할 것
-//				auth.anyRequest().permitAll();
         })
         // 4. 세션 방식을 사용하지 않음
         .sessionManagement(session ->
