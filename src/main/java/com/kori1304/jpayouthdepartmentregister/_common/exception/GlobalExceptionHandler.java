@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(BusinessRuleViolationException.class)
   public ResponseEntity<ResponseDTO> handleBusinessRuleViolationException(BusinessRuleViolationException e) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ResponseDTO.createByException(HttpStatus.BAD_REQUEST, e)
+        .body(ResponseDTO.fromException(HttpStatus.BAD_REQUEST, e)
         );
   }
 
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(RepositoryAccessException.class)
   public ResponseEntity<ResponseDTO> handleRepositoryAccessException(BusinessRuleViolationException e) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ResponseDTO.createByException(HttpStatus.INTERNAL_SERVER_ERROR, e)
+        .body(ResponseDTO.fromException(HttpStatus.INTERNAL_SERVER_ERROR, e)
         );
   }
 
