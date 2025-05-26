@@ -4,6 +4,7 @@ package com.kori1304.jpayouthdepartmentregister._common.jwt;
 
 import com.kori1304.jpayouthdepartmentregister._common.exception.TokenException;
 import com.kori1304.jpayouthdepartmentregister._common.jwt.dto.TokenDTO;
+import com.kori1304.jpayouthdepartmentregister.user.application.UserService;
 import com.kori1304.jpayouthdepartmentregister.user.domain.model.Role;
 import com.kori1304.jpayouthdepartmentregister.user.domain.model.User;
 import io.jsonwebtoken.*;
@@ -66,7 +67,7 @@ public class TokenProviderImpl implements TokenProvider {
   private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
 
   // Spring Security가 제공하는 UserDetailsService를 그대로 활용
-  private final UserDetailsService userDetailsService;
+  private final UserService userService;
 
   // java.security.Key로 import 할 것
   private final Key key;
@@ -78,11 +79,11 @@ public class TokenProviderImpl implements TokenProvider {
    *  주입할 값은 스프링 Expression Language (SpEL) or 프로퍼티 키를 사용해 런타임에 설정 가능하다.
    *  이를 통해 설정 파일에서 관리하는 프로퍼티 값을 소스 코드로 불러와 직접 사용할 수 있게 된다.
    * */
-  public TokenProviderImpl(UserDetailsService userDetailsService,
+  public TokenProviderImpl(UserService userService,
       @Value("${jwt.secret}") String secretKey) {
 
     // UserDetailsService 인스턴스를 클래스 필드에 할당.
-    this.userDetailsService = userDetailsService;
+    this.userService = userService;
     // 이후, 전달된 secretKey를 Base64 디코딩해서 JWT 서명에 사용할 Key 객체를 생성 및 초기화.
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -131,7 +132,7 @@ public class TokenProviderImpl implements TokenProvider {
   @Override
   public String getUserId(String token) {
 
-    return Jwts.parserBuilder()
+   String result = Jwts.parserBuilder()
         // 서명 키 설정
         .setSigningKey(key)
         // 파서 빌드
@@ -142,6 +143,10 @@ public class TokenProviderImpl implements TokenProvider {
         .getBody()
         // Claims 중에 등록 클레임에 해당하는 sub값 추출(회원 아이디)
         .getSubject();
+
+   log.info("[TokenProvider] parseClaimsJws result = {}", result);
+
+    return result;
   }
 
   /* 목차. 3. AccessToken으로 인증 객체 추출(이 클래스의 5번과 2번에 해당하는 메서드를 사용) */
@@ -171,11 +176,11 @@ public class TokenProviderImpl implements TokenProvider {
 
     // Spring Security에서 제공하는 UserDetailsService를 이용해 사용자 정보를 로드
     // 이 때, UserDetailsService를 구현한 서비스 클래스를 생성해야 한다.
-    UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(token));
+    User _user = userService.getById(this.getUserId(token));
 
-    log.info("[TokenProvider] getAuthentication() End");
 
-    return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    log.info("[TokenProvider] getAuthentication() {}", _user.getUsername());
+    return new UsernamePasswordAuthenticationToken(_user, "", _user.getAuthorities());
   }
 
   /* 목차. 4. 토큰 유효성 검사 */
