@@ -1,6 +1,6 @@
 package com.kori1304.jpayouthdepartmentregister.attendance.domain;
 
-import com.kori1304.jpayouthdepartmentregister._common.RepositoryAccessException;
+import com.kori1304.jpayouthdepartmentregister._common.exception.RepositoryAccessException;
 import java.time.LocalDate;
 import java.util.List;
 
