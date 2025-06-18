@@ -1,4 +1,4 @@
-package com.kori1304.jpayouthdepartmentregister.user.infrastructure;
+package com.kori1304.jpayouthdepartmentregister.user.infrastructure.entity;
 
 import com.kori1304.jpayouthdepartmentregister._common.BaseEntity;
 import jakarta.persistence.*;
@@ -24,7 +24,7 @@ public class UserEntity extends BaseEntity {
     private String password;
 
     @OneToMany
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private List<RoleEntity> userRoles;
 
 }

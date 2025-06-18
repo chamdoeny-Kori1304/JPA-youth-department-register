@@ -1,10 +1,16 @@
 package com.kori1304.jpayouthdepartmentregister._common.jwt;
 
+import com.kori1304.jpayouthdepartmentregister._common.jwt.dto.TokenDTO;
+import com.kori1304.jpayouthdepartmentregister.user.domain.model.User;
 import org.springframework.security.core.Authentication;
 
-public interface TokenProvider  {
+public interface TokenProvider {
 
-  boolean validateToken(String jwt);
+  TokenDTO generateTokenDTO(User user);
 
-  Authentication getAuthentication(String jwt);
+  String getUserId(String token);
+
+  boolean validateToken(String token);
+
+  Authentication getAuthentication(String token);
 }

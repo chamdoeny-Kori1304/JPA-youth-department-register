@@ -14,11 +14,15 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "member")
+
 @Entity
 @Builder
 public class MemberEntity extends BaseEntity {
 
   private String name;
+
+  @Enumerated(EnumType.STRING)  // ⭐ 반드시 추가!
   private Gender gender;
   private String phoneNumber;
   private String address;

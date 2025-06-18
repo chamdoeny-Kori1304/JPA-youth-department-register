@@ -1,0 +1,22 @@
+### signup
+POST localhost:8080/auth/signup
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
+{
+ "name": "홍길동",
+  "email": "hhh@gmail.com",
+  "password": "1234"
+}
+
+### login
+POST localhost:8080/auth/login
+Content-Type: application/json
+Accept: */*
+Access-Control-Allow-Origin:*
+
+{
+  "email": "hhh@gmail.com",
+  "password": "1234"
+}

@@ -1,25 +1,35 @@
--- MySQL 또는 MariaDB
-INSERT INTO small_group_entity (name, created_at, updated_at) VALUES ('청년1팀', NOW(), NOW());
-INSERT INTO small_group_entity (name, created_at, updated_at) VALUES ('청년2팀', NOW(), NOW());
-INSERT INTO small_group_entity (name, created_at, updated_at) VALUES ('청년3팀', NOW(), NOW());
-INSERT INTO small_group_entity (name, created_at, updated_at) VALUES ('청년4팀', NOW(), NOW());
-INSERT INTO small_group_entity (name, created_at, updated_at) VALUES ('청년5팀', NOW(), NOW());
+-- 테이블 생성
 
 
+-- 1. 권한 테이블
+CREATE TABLE authority (
+                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                           name VARCHAR(100) NOT NULL UNIQUE,
+                           `desc` VARCHAR(255)
+);
 
--- member table
-INSERT INTO member (
-    name, gender, phone_number, address, birth_date, human_relations, small_group_id, created_at, updated_at
-)
-VALUES
-    ('김민준', 0, '010-1234-1111', '서울시 강남구', '2000-01-15', '친구 추천', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('이서연', 1, '010-1234-2222', '서울시 서초구', '2001-05-22', '자원', 1, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('박지훈', 0, '010-1234-3333', '서울시 송파구', '1999-08-03', '부모 요청', 2, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('최수빈', 1, '010-1234-4444', '서울시 노원구', '2002-11-12', '친구 따라', 2, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('정우진', 0, '010-1234-5555', '서울시 강서구', '1998-03-30', '초청장', 3, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('한예린', 1, '010-1234-6666', '서울시 은평구', '2000-09-07', '학교 친구', 3, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('김도윤', 0, '010-1234-7777', '서울시 마포구', '2001-01-25', '교사 추천', 4, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('홍지민', 1, '010-1234-8888', '서울시 구로구', '1997-06-18', '전도', 4, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('서하준', 0, '010-1234-9999', '서울시 양천구', '2003-12-01', 'SNS 홍보', 5, '2024-01-01 10:00:00', '2024-01-01 10:00:00'),
-    ('오하늘', 1, '010-1234-0000', '서울시 도봉구', '1996-02-14', '현장 방문', 5, '2024-01-01 10:00:00', '2024-01-01 10:00:00');
+-- 2. 사용자 테이블
+CREATE TABLE user (
+                      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                      name VARCHAR(100) NOT NULL,
+                      email VARCHAR(100) NOT NULL UNIQUE,
+                      phone_number VARCHAR(20),
+                      password VARCHAR(255),
+                      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
+-- 3. 역할 매핑 테이블
+CREATE TABLE role (
+                      user_id BIGINT NOT NULL,
+                      authority_id BIGINT NOT NULL,
+                      PRIMARY KEY (user_id, authority_id),
+                      FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+                      FOREIGN KEY (authority_id) REFERENCES authority(id) ON DELETE CASCADE
+);
+
+-- 4 authority에 관한 추가
+INSERT INTO authority (name, `desc`) VALUES
+                                         ('ROLE_USER', '일반 사용자 권한'),
+                                         ('ROLE_ADMIN', '관리자 권한'),
+                                         ('ROLE_MANAGER', '매니저 권한');

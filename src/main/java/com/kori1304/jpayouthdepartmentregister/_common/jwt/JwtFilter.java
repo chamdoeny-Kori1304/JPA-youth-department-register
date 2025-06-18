@@ -49,6 +49,14 @@ public class JwtFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+          /*  // 이 시점 이후에만 인증 정보 접근 가능
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null) {
+                log.info("✅ 인증 성공: {}", authentication.getAuthorities());
+                log.info("🛡️ 인증 사용자: {}", auth.getName());
+                log.info("🛡️ 권한 목록: {}", auth.getAuthorities());
+            }*/
         }
 
         /* 설명. 다음 filter chain 진행 */
